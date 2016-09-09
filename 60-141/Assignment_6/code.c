@@ -5,7 +5,7 @@ typedef struct{
 	float grades[10];
 	float GPA;
 }i_t;
-int main()
+int main() 
 {
 	FILE *FP,*FP2;
 	FP = fopen("assign6.dat","r"); //Opens Input File
