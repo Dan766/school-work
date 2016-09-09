@@ -1,4 +1,4 @@
-//Assignment 1: 60-140
+//Assignment 1: 60-140 
 //By Daniel Fontana
 #include <stdio.h>
 int main(void)
