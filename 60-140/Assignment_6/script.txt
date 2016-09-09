@@ -1,0 +1,289 @@
+Script started on Wed 19 Nov 2014 07:00:36 PM EST
+fontana1@alpha:~$ cat IA6.c
+
+#include <stdio.h>
+
+
+
+//Function prototypes
+
+//Function that Calculates the Rows
+
+void ColCalc (float [4][3], float [4]);
+
+//Function that Calculates the Columns
+
+void RowCalc (float [4][3], float [3]);
+
+//Function that prints out the chart at the end
+
+void print_total (float [4][3], float [3], float [4], char [3][20]);
+
+
+
+//Main function 
+
+void main(void) 
+
+{
+
+	//Input Variables
+
+	int r, c;
+
+	float sales[4][3];
+
+	char names[3][20];
+
+	
+
+	//Output Variables
+
+	float Rsum[3], Csum[4];
+
+	
+
+	//For loop prompts the user to enter the names of the three employees
+
+	for (c=0; c<3; c++)
+
+	{
+
+		printf("Enter the name of employee %d: ",c+1);
+
+		scanf("%s",names[c]);
+
+	}
+
+	//For loop prompts the user to enter the Q1-Q4 sales for each of the three employees
+
+	for (c=0; c<3; c++)
+
+	{
+
+		printf("Input the Quarter sales for the employee %s :\n",names[c]);
+
+		for (r=0; r<4; r++)
+
+		{
+
+			printf("\tQ%d: ",r+1);
+
+			scanf("%f",&sales[r][c]);
+
+		}
+
+		printf("\n");
+
+	}
+
+	//Calls function to compute the Columm sum of the data (Total Quarterly Sales)
+
+	ColCalc (sales, Csum);
+
+	//Calls function to compute the Row sum of the data (Total Personal Sales)
+
+	RowCalc (sales, Rsum);
+
+	//Calls the function that prints out all of our data onto a chart
+
+	print_total(sales, Rsum, Csum, names);
+
+}
+
+//Function definition for the RowCalc function
+
+//computes the Columm sum of the data (Total Quarterly Sales)
+
+void ColCalc (float sales[4][3], float Csum[4])
+
+{
+
+	//Variables used for processing
+
+	int c, r;
+
+	// Calculates the sum of columns 
+
+	for (r=0; r<4; r++)
+
+	{
+
+		Csum[r] = 0;
+
+		for (c=0; c<3; c++)
+
+		{
+
+			Csum[r] += sales[r][c];
+
+		}
+
+	}
+
+}
+
+//Function definition for the CowCalc function
+
+//computes the Row sum of the data (Total Personal Sales)
+
+void RowCalc (float sales[4][3], float Rsum[3])
+
+{
+
+	//Variables used for processing 
+
+	int c, r;
+
+	//Calculates the sum of the rows
+
+	for (c=0; c<3; c++)
+
+	{
+
+		Rsum[c] = 0;
+
+		for (r=0; r<4; r++)
+
+		{
+
+			Rsum[c] += sales[r][c];
+
+		}
+
+	}
+
+}
+
+//Function definition for our print_total 
+
+//function that prints out all of our data onto a chart
+
+void print_total (float sales[][3], float Rsum[3], float Csum[4], char names[3][20])
+
+{
+
+	//variables used in printing the data
+
+	int c, r;
+
+	//Output variable 
+
+	float total=0;
+
+	//Prints the header for the table
+
+	printf("Name:\t\tQ1\t\tQ2\t\tQ3\t\tQ4\t\tPersonal Sales\n");
+
+	//Prints each employees name and sales numbers for each quarter
+
+	for (c=0; c<3; c++)
+
+	{
+
+		printf("%s:",names[c]);
+
+		for (r=0; r<4; r++)
+
+		{
+
+			printf("\t%.2f",sales[r][c]);
+
+		}
+
+		printf("\t%.2f",Rsum[c]);
+
+		total += Rsum[c];
+
+		printf("\n");
+
+	}
+
+	//Prints the sales amounts for each quarter 
+
+	printf("Quarterly Sales:");
+
+	for (r=0; r<4; r++)
+
+	{
+
+		printf("\t%.2f",Csum[r]);
+
+	}
+
+	//Prints the 'footer' for the table; includes a containing line and the total sales
+
+	printf("\n");
+
+	printf("-----------------------------------------------------------------------------------------------------------------------------------------------------");
+
+	printf("\nTotal:\t\t\t\t\t\t\t\t\t\t%.2f\n\n", total);
+
+}
+
+fontana1@alpha:~$ cc IA6.c
+
+fontana1@alpha:~$ ./a.out
+
+Enter the name of employee 1: Janet_Brown
+
+Enter the name of employee 2: Joey_Black
+
+Enter the name of employee 3: Tonmy_White
+
+Input the Quarter sales for the employee Janet_Brown :
+
+	Q1: 80000
+
+	Q2: 56000
+
+	Q3: 90000
+
+	Q4: 35000
+
+
+
+Input the Quarter sales for the employee Joey_Black :
+
+	Q1: 78000
+
+	Q2: 30000
+
+	Q3: 12000
+
+	Q4: 57000
+
+
+
+Input the Quarter sales for the employee Tonmy_White :
+
+	Q1: 24000
+
+	Q2: 90000
+
+	Q3: 125000
+
+	Q4: 78000
+
+
+
+Name:		Q1		Q2		Q3		Q4		Personal Sales
+
+Janet_Brown:	80000.00	56000.00	90000.00	35000.00	261000.00
+
+Joey_Black:	78000.00	30000.00	12000.00	57000.00	177000.00
+
+Tonmy_White:	24000.00	90000.00	125000.00	78000.00	317000.00
+
+Quarterly Sales:	182000.00	176000.00	227000.00	170000.00
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Total:										755000.00
+
+
+
+fontana1@alpha: exit
+
+
+Script done on Wed 19 Nov 2014 07:04:34 PM EST
