@@ -1,0 +1,581 @@
+Script started on Thu 30 Oct 2014 11:25:40 AM EDT
+fontana1@bravo:~/CS$ cat IA4-1.c[Ktxt
+
+Step 6: Tracing
+
+
+
+
+
+// Global Input variables 
+
+float score1, score2, score3, score4, score5;
+
+// Global Output variables
+
+float mean, SqDev1, SqDev2, SqDev3, SqDev4, SqDev5, sum_SqDev,DevScore1,DevScore2,DevScore3,DevScore4,DevScore5, sd;
+
+
+
+
+
+Main Function: 
+
+
+	scanf("%f %f %f %f %f", &score1, &score2, &score3, &score4, &score5);
+
+
+=>	score1, score2, score3, score4, and score 5 are entered
+
+
+=>	60, 95, 73, 41, and 84
+
+
+
+
+
+
+Calculate Function:
+
+
+	mean = Mean();
+
+
+=>	// mean = Mean()
+
+
+		 return ((score1+score2+score3+score4+score5)/5)
+
+
+=>	// mean = (60+95+73+41+85)/5
+
+
+=>	// mean = 353/5
+
+
+=>	// mean = 70.6
+
+
+	
+
+
+	DevScore1 = DevScore(score1 , mean)
+
+
+=>	DevScore(x, m) => return (x-m) 
+
+
+=> 	60 - 70.6 = -10.6
+
+
+
+
+
+	DevScore2 = DevScore(score2 , mean)
+
+
+=>	DevScore(x, m) => return (x-m) 
+
+
+=> 	95 - 70.6 = 24.4
+
+
+
+
+
+	DevScore3 = DevScore(score3 , mean)
+
+
+=>	DevScore(x, m) 
+
+
+=> 	return (x-m) 
+
+
+=> 	73 - 70.6 = 2.4
+
+
+
+
+
+	DevScore4 = DevScore(score4 , mean)
+
+
+=>	DevScore(x, m) 
+
+
+=> 	return (x-m) 
+
+
+=> 	41 - 70.6 = -29.6
+
+
+
+
+
+	DevScore5 = DevScore(score5 , mean)
+
+
+=>	DevScore(x, m) 
+
+
+=> 	return (x-m) 
+
+
+=> 	84- 70.6 = 13.4
+
+
+
+
+
+
+
+
+	SqDev1 = SqDev(score1, mean);
+
+
+=>	// SqDev1 = SqDev(x, m)
+
+
+		     return ((x-m)*(x-m));
+
+
+=>	// SqDev1 = (60-70.6)(60-70.6)
+
+
+=>	// SqDev1 = (-10.6)(-10.6)
+
+
+=>	// SqDev1 = 112.36
+
+
+
+
+
+	SqDev2 = SqDev(score2, mean); 
+
+
+=>	// SqDev2 = SqDev(x, m)
+
+
+		     return ((x-m)*(x-m));
+
+
+=>	// SqDev2 = (95-70.6) (95-70.6)
+
+
+=>	// SqDev2 = (24.4)(24.4)
+
+
+=>	// SqDev2 = 595.36
+
+
+
+
+
+	SqDev3 = SqDev(score3, mean); 
+
+
+=>	// SqDev3 = SqDev(x, m)
+
+
+		     return ((x-m)*(x-m));
+
+
+=>	// SqDev3 = (73-70.6) (73-70.6)
+
+
+=>	// SqDev3 = (2.4)(2.4)
+
+
+=>	// SqDev3 = 5.76
+
+
+
+
+
+	SqDev4 = SqDev(score4, mean); 
+
+
+=>	// SqDev4 = SqDev(x, m)
+
+
+		     return ((x-m)*(x-m));
+
+
+=>	// SqDev4 = (41-70.6) (41-70.6)
+
+
+=>	// SqDev4 = (-29.6)(-29.6)
+
+
+=>	// SqDev4 = 876.16
+
+
+
+
+
+	SqDev5 = SqDev(score5, mean); 
+
+
+=>	// SqDev5 = SqDev(x, m)
+
+
+		     return ((x-m)*(x-m));
+
+
+=>	// SqDev5 = (85-70.6) (85-70.6)
+
+
+=>	// SqDev5 = (14.4)(14.4)
+
+
+=>	// SqDev2 = 179.56
+
+
+
+
+
+	sum_SqDev = SqDev1 + SqDev2 + SqDev3 + SqDev4 + SqDev5;
+
+
+=>	// sum_SqDev = 112.36 + 595.36 + 5.76 + 876.16 + 179.56
+
+
+=>	// sum_SqDev = 1769.20
+
+
+
+
+
+	sd = sqrt(sum_SqDev/5)
+
+
+=>	// sd = sqrt(1769.20/5)
+
+
+=>	// sd = sqrt(353.04)
+
+
+=>	// sd = 18.81
+
+
+
+
+
+
+Print Function
+
+
+	printf("\n%.1f\t\t%3.1f\t\t%3.1f\t\t%.2f", score1, mean, DevScore1, SqDev1);
+
+
+=>	score1, mean, DevScore(score1,mean), and SqDev1 are printed
+
+
+=>	60, 70.6, -10.6, and 112.36 
+
+
+
+
+
+	printf("\n%.1f\t\t%3.1f\t\t%3.1f\t\t%.2f", score2, mean, DevScore2, SqDev2);
+
+
+=>	score1, mean, DevScore(score1,mean), and SqDev1 are printed
+
+
+=>	60, 70.6, -24.4, and 595.36
+
+
+
+
+
+	printf("\n%.1f\t\t%3.1f\t\t%3.1f\t\t%.2f", score3, mean, DevScore3, SqDev3);
+
+
+=>	score1, mean, DevScore(score1,mean), and SqDev1 are printed
+
+
+=>	60, 70.6, 2.4, and 5.76
+
+
+
+
+
+	printf("\n%.1f\t\t%3.1f\t\t%3.1f\t\t%.2f", score4, mean, DevScore4, SqDev4);
+
+
+=>	score1, mean, DevScore(score1,mean), and SqDev1 are printed
+
+
+=>	60, 70.6, -29.6, and 876.16
+
+
+
+
+
+	printf("\n%.1f\t\t%3.1f\t\t%3.1f\t\t%.2f", score5, mean, DevScore5, SqDev5);
+
+
+=>	score1, mean, DevScore(score1,mean), and SqDev1 are printed
+
+
+=>	60, 70.6, 13.4, and 179.56
+
+
+
+
+
+	printf("\n\t\t\t\t\tSum:\t%.2f" , sum_SqDev);
+
+
+=>	sum_SqDev is printed
+
+
+=>	1769.20
+
+
+
+
+
+	printf("\nVariance = %.2f/5 = %.2f", sum_SqDev, sum_SqDev/5);
+
+
+=>	sum_SqDev and sum_SqDev/5 are printed
+
+
+=>	1769.20 and 353.84
+
+
+
+
+
+	printf("\nStandard deviation = SD = %.2f\n\n", sd);
+
+
+=>	sd is printed 
+
+
+=>	18.81
+
+
+
+
+
+=>	The correct values are printedfontana1@bravo:~/CS$ cat IA4-1.c
+
+#include <stdio.h> 
+
+#include <math.h>
+
+
+
+// Function definitions 
+
+float Mean (float, float, float, float, float);
+
+float DevScore(float, float);
+
+float SqDev(float, float);
+
+void calculate(float,float,float,float,float,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *);
+
+void printfunc(float,float,float,float,float,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *,float *);
+
+	
+
+// Main porgram module 
+
+void main(void)
+
+{
+
+	// Input variables 
+
+	float score1, score2, score3, score4, score5;
+
+	// Output Variables
+
+	float mean, SqDev1, SqDev2, SqDev3, SqDev4, SqDev5, sum_SqDev,DevScore1,DevScore2,DevScore3,DevScore4,DevScore5, sd;
+
+	
+
+	// Requests user to enter 5 test scores 
+
+	printf("\nPlease type the 5 test scores: ");
+
+	scanf("%f %f %f %f %f", &score1, &score2, &score3, &score4, &score5);
+
+	
+
+	// Performs calculations on data
+
+	calculate(score1, score2, score3, score4, score5,&SqDev1,&SqDev2,&SqDev3,&SqDev4,&SqDev5,&DevScore1,&DevScore2,&DevScore3,&DevScore4,&DevScore5,&sum_SqDev,&sd, &mean);
+
+
+
+	// Output text printed in a table format including all output data
+
+	printfunc(score1, score2, score3, score4, score5,&SqDev1,&SqDev2,&SqDev3,&SqDev4,&SqDev5,&DevScore1,&DevScore2,&DevScore3,&DevScore4,&DevScore5,&sum_SqDev,&sd, &mean);
+
+	
+
+}
+
+
+
+// Definitions for call_by_reference functions used in main program 
+
+//function that calculates mean of 5 numbers
+
+float Mean(float score1, float score2, float score3, float score4,float score5)
+
+{
+
+	return ((score1+score2+score3+score4+score5)/5);
+
+}
+
+// Function that caclulates squared deviation
+
+float SqDev(float x, float m)
+
+{
+
+	return (pow(x-m, 2));
+
+} 
+
+// Function that calculates deviation score
+
+float DevScore(float x, float m)
+
+{
+
+	return (x-m);
+
+}
+
+// Function that does all calculations
+
+void calculate(float score1,float score2,float score3,float score4,float score5,float *SqDev1,float *SqDev2,float *SqDev3,float *SqDev4,float *SqDev5,float *DevScore1,float *DevScore2,float *DevScore3,float *DevScore4,float *DevScore5,float *sum_SqDev,float *sd, float *mean)
+
+{	
+
+	//Calculates mean
+
+	*mean = Mean(score1, score2, score3, score4, score5);
+
+	
+
+	// Calculates the Deviation Scores
+
+	*DevScore1 = DevScore(score1 , *mean);
+
+	*DevScore2 = DevScore(score2 , *mean);
+
+	*DevScore3 = DevScore(score3 , *mean);
+
+	*DevScore4 = DevScore(score4 , *mean);
+
+	*DevScore5 = DevScore(score5 , *mean);
+
+	
+
+	// Calculates the Squared Deviation of each score
+
+	*SqDev1 = SqDev(score1, *mean);
+
+	*SqDev2 = SqDev(score2, *mean); 
+
+	*SqDev3 = SqDev(score3, *mean); 
+
+	*SqDev4 = SqDev(score4, *mean); 
+
+	*SqDev5 = SqDev(score5, *mean); 
+
+	
+
+	// Calculates the sum of all the Squared Deviations
+
+	*sum_SqDev = *SqDev1 + *SqDev2 + *SqDev3 + *SqDev4 + *SqDev5;
+
+	*sd = sqrt(*sum_SqDev/5);
+
+}
+
+// Print fuction used to print table of results
+
+void printfunc(float score1,float score2,float score3,float score4,float score5,float *SqDev1,float *SqDev2,float *SqDev3,float *SqDev4,float *SqDev5,float *DevScore1,float *DevScore2,float *DevScore3,float *DevScore4,float *DevScore5,float *sum_SqDev,float *sd, float *mean)
+
+{
+
+	printf("\nScore   -   Mean Score =  Deviation Score  Squared Deviation");
+
+	printf("\n(X)             (M)            (X-M)           (X-M)^2");
+
+	printf("\n-------------------------------------------------------------");
+
+	printf("\n%.1f\t\t%.1f\t\t%.1f\t\t%.2f", score1, *mean, *DevScore1, *SqDev1);
+
+	printf("\n%.1f\t\t%.1f\t\t%.1f\t\t%.2f", score2, *mean, *DevScore2, *SqDev2);
+
+	printf("\n%.1f\t\t%.1f\t\t%.1f\t\t%.2f", score3, *mean, *DevScore3, *SqDev3);
+
+	printf("\n%.1f\t\t%.1f\t\t%.1f\t\t%.2f", score4, *mean, *DevScore4, *SqDev4);
+
+	printf("\n%.1f\t\t%.1f\t\t%.1f\t\t%.2f", score5, *mean, *DevScore5, *SqDev5);
+
+	printf("\n\t\t\t\t\tSum:\t%.2f" , *sum_SqDev);
+
+	printf("\nVariance = %.2f/5 = %.2f", *sum_SqDev, *sum_SqDev/5);
+
+	printf("\nStandard deviation = SD = %.2f\n\n", *sd);
+
+}
+
+fontana1@bravo:~/CS$ cat [K[K[K[Kcc IA4-01.c -lm
+
+cc: error: IA4-01.c: No such file or directory
+
+fontana1@bravo:~/CS$ cc IA4)1[K[K_[K-1.c -m[Klm
+
+fontana1@bravo:~/CS$ ./a.out
+
+
+
+Please type the 5 test scores: 60 95 73 41 84
+
+
+
+Score   -   Mean Score =  Deviation Score  Squared Deviation
+
+(X)             (M)            (X-M)           (X-M)^2
+
+-------------------------------------------------------------
+
+60.0		70.6		-10.6		112.36
+
+95.0		70.6		24.4		595.36
+
+73.0		70.6		2.4		5.76
+
+41.0		70.6		-29.6		876.16
+
+84.0		70.6		13.4		179.56
+
+					Sum:	1769.20
+
+Variance = 1769.20/5 = 353.84
+
+Standard deviation = SD = 18.81
+
+
+
+fontana1@bravo:~/CS$ exit
+
+exit
+
+
+Script done on Thu 30 Oct 2014 11:27:13 AM EDT
