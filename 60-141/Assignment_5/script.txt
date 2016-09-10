@@ -1,0 +1,1083 @@
+Script started on Thu 02 Apr 2015 01:00:59 PM EDT
+fontana1@alpha:~$ cat assign5c[K/[K.c
+
+//Daniel Fontana: Assignment 5
+
+#include <stdio.h>
+
+#include <ctype.h>
+
+#include <stdlib.h>
+
+//Structure which stores course info for each student
+
+struct CourseInfo{
+
+	int courseID;
+
+	char courseName[30];
+
+};
+
+//Structure which stores strudent infomation
+
+struct studentInfo{
+
+	int studentID;
+
+	char First[20];
+
+	char Last[25];
+
+	int Courses;
+
+	struct CourseInfo courseinfo[10];
+
+	struct studentInfo *next; //Pointer used to link nodes of our linked list together
+
+};
+
+typedef struct studentInfo item; //Creates an alias for struct studentInfo called 'item'
+
+item *head=NULL; //Sets our head pointer to NULL (not pointing to anything)
+
+void loadStudentInfo();		//Function that reads existing data from file and 'loads' it into the linked list
+
+void displayStudentInfo();	//Function that prints the contents of the linked list (student info)
+
+void addStudent();			//Function which adds a node to the sorted linked list containing a new student's info  
+
+void searchStudentName();	//Function used for searching for a specific student based on student ID
+
+void saveStudentInfo();		//Function which saves the contents of the linked list to a text file (opposite of loadStudentInfo)
+
+void deleteStudentInfo();	//Function which deletes a given student based on ID
+
+void EXIT();				//Function will save student data to File and print an exit message
+
+//item searchStudentID(int);	//Function will search student ID's using a bubble sort algoritm 
+
+int main() //Main logic function
+
+{
+
+	char choice='W';
+
+	loadStudentInfo(); //Loads student data from text file
+
+	while (toupper(choice) != 'Q') //Loops until user quits
+
+	{
+
+		// Prints a selection menu onto the screen
+
+		printf("\nAssignment 5");
+
+		printf("\nChoose an option\n");
+
+		printf("\tA. Add Student\n"); 
+
+		printf("\tB. Delete Student\n");
+
+		printf("\tC. Search Student\n");
+
+		printf("\tD. Display Students\n");
+
+		printf("\tE. Save Student Info\n");
+
+		printf("\tQ. Quit\n");
+
+		scanf("%s",&choice);
+
+		printf("\n");
+
+		switch (toupper(choice))
+
+		{
+
+		//If the A option is chosen then the addStudent function will run
+
+		case 'A':
+
+			addStudent();
+
+			break;
+
+		//If the B option is chosen then the deleteStudentInfo function will run
+
+		case 'B':
+
+			deleteStudentInfo();
+
+			break;
+
+		//If the C option is chosen then the Search function will run
+
+		case 'C':
+
+			searchStudentName();
+
+			break;
+
+		//If the D option is chosen then the print info function will run
+
+		case 'D':
+
+			displayStudentInfo();
+
+			break;
+
+		//If the E option is chosen then the save function will run
+
+		case 'E':
+
+			saveStudentInfo();
+
+			break;
+
+		//If user types 'q' than the programs exits
+
+		case 'Q':
+
+			EXIT();
+
+			break;
+
+		//If none of the above values are entered than an prompt appears telling user the char is invalid
+
+		default:	
+
+			printf("INVALID OPTION!");
+
+			break;
+
+		}
+
+	}
+
+	return 0; //Program End
+
+}
+
+/*
+
+	Objective: The objective of the searchStudentName function is to search the linked list for
+
+			a given student name. 
+
+	Input: The input in this function is a given name which the user will enter
+
+	Output: The output in this function is a prompt either showing the user the student info with
+
+			a matching name or an error saying the entered name is not in the list. 
+
+*/
+
+void searchStudentName()
+
+{
+
+	int found=0,r;
+
+	char name[20];
+
+	item *temp;
+
+	temp = head;
+
+	printf("What is the last name of the student? ");
+
+	scanf("%s", name);
+
+	name[0]=toupper(name[0]);
+
+	while(temp) //Loops untill temp is NULL
+
+	{
+
+		//If the last name matches one in the linked list, print the given student data
+
+		if (strcmp(name,temp->Last)==0) 
+
+		{
+
+			found=1;
+
+			printf("%d\n", temp->studentID);
+
+			printf("%s\n", temp->First);
+
+			printf("%s\n", temp->Last);
+
+			printf("%d\n", temp->Courses);
+
+			for(r=0;r<(temp->Courses);r++)
+
+				printf("%s %d\n", temp->courseinfo[r].courseName,temp->courseinfo[r].courseID);
+
+		}
+
+		temp=temp->next; //move the node up in the linked list
+
+	}
+
+	if (found==0) printf("\nNo Matches Found\n"); //Print error if no match was found
+
+	return; //Function END
+
+}
+
+/*
+
+	Objective: The objective of the deleteStudentInfo function is to delete the node from the linked list
+
+			which matches a given ID which the user enters.
+
+	Input: The input of this function is a ID which the user wishes to delete
+
+	Output: The output of this function is either an error saying a student with the entered ID does not Exist or
+
+			the matching data set with the given ID.
+
+*/
+
+void deleteStudentInfo()
+
+{
+
+	int id=0,T=0;
+
+	item *right=head,*left=head;
+
+	printf("Enter a ID to delete: ");
+
+	scanf("%d", &id);
+
+	while(right!=NULL) //Loop until right is NULL
+
+	{
+
+		if(right->studentID==id) //If id is equal to right's ID, we remove right from the link and delete it
+
+		{
+
+			left->next=right->next;
+
+			if (right==head) head=head->next;
+
+			printf("\nStudent Removed\n");
+
+			free(right); //Frees the memory space where right was stored
+
+			break;
+
+		}
+
+		left=right; //set left to the existing node
+
+		right=right->next; //move the node up in the linked list
+
+	}
+
+	if (right==NULL) printf("\nNo such ID exist\n"); //Print error if no match was found
+
+	return; //Function End
+
+}
+
+/*
+
+	Objective: The objective of the addStudent function is to add a new student data
+
+			set into the correct location of the sorted linked list, based in ID.
+
+	Input: The input of this function is all of the information about the student to be added
+
+	Output: The output is the new, modified, linked list which will have another student added to
+
+			it in sorted order. 
+
+*/
+
+void addStudent()
+
+{
+
+	int r=0,id;
+
+	item *curr = (item *)malloc(sizeof(item)); //Allocate memory space form curr
+
+	//Gets new student data
+
+	printf("Adding new Student");
+
+	printf("\nStudentID: ");
+
+	scanf("%d",&curr->studentID);
+
+	while(!searchStudentID(curr->studentID))
+
+	{
+
+		printf("That ID already exists!");
+
+		printf("\nStudentID: ");
+
+		scanf("%d",&curr->studentID);
+
+	}
+
+	printf("First Name: ");
+
+	scanf("%s", curr->First);
+
+	curr->First[0] = toupper(curr->First[0]); //Makes first letter uppercase
+
+	printf("Last Name: ");
+
+	scanf("%s", curr->Last);
+
+	curr->Last[0] = toupper(curr->Last[0]); //Makes first letter uppercase
+
+	printf("Number of Courses: ");
+
+	scanf("%d", &curr->Courses);
+
+	//Gets course data
+
+	for(r=0;r<(curr->Courses);r++)
+
+	{
+
+		printf("Course ID: ");
+
+		scanf("%d",&curr->courseinfo[r].courseID);
+
+		printf("Couse Name: ");
+
+		scanf("%s",curr->courseinfo[r].courseName);
+
+	}
+
+	item *right=head,*left=head; //Creats a left and right node
+
+	//If current student ID is less then head node, we set current node to the head; 
+
+	if (right->studentID>curr->studentID) 
+
+	{
+
+		curr->next=right;
+
+		head=curr;
+
+		return; 				//Curr placed at FRONT
+
+	}
+
+	while(right) //While right is not NULL
+
+	{
+
+		//if current ID is in between left and right nodes, we can place current in between.
+
+		if (right->studentID>curr->studentID)
+
+		{
+
+			curr->next=right;
+
+			left->next=curr;
+
+			return; 			//Curr placed in MIDDLE
+
+		}
+
+		left=right;
+
+		right=right->next;
+
+	}
+
+	//sets current node to the last node of the link
+
+	curr->next=NULL;
+
+	left->next=curr;
+
+	return; 					//Curr placed at END
+
+}
+
+/*
+
+	Objective: The objective of this function is to check if a given student ID exists
+
+			int the linked list and return a true value if not and false if it does
+
+	Input: The input of this function is a given id used to search the linked list
+
+	Output: The return value is either true or false depending on whether the id is in the linked list
+
+*/
+
+int searchStudentID(int id)
+
+{
+
+	item *temp=head;
+
+	while (temp)
+
+	{
+
+		if (temp->studentID>id) break; //ID cannot be in list
+
+		if (temp->studentID==id) return 0; //ID is in the list
+
+		temp=temp->next;
+
+	}
+
+	return 1; //ID is not in list
+
+}
+
+/*
+
+	Objective: The objective of the loadStudetInfo function is to load all the existing
+
+			student info from the text file and place it into a linked list; 
+
+	Input: The input of this function is a text file containing student information
+
+	Output: The output of this function is a linked list containing all of the data from the text file.
+
+*/
+
+void loadStudentInfo()
+
+{
+
+	int r;
+
+	item *curr;
+
+	FILE *FP;
+
+	curr=(item*)malloc(sizeof(item)); //Allocates mem space for curr node
+
+	FP = fopen("studentList.txt","r");
+
+	while(0<fscanf(FP,"%d", &curr->studentID)) //Scans until studentID is a char (***) 
+
+	{
+
+		fscanf(FP,"%s", curr->First);
+
+		fscanf(FP,"%s", curr->Last);
+
+		fscanf(FP,"%d", &curr->Courses);
+
+		for(r=0;r<(curr->Courses);r++)
+
+			fscanf(FP,"%s %d", curr->courseinfo[r].courseName,&curr->courseinfo[r].courseID);
+
+		if (head==NULL) //If head is NULL, then set the current node to be head
+
+		{
+
+			curr->next = NULL;
+
+			head = curr;
+
+		}
+
+		else //Else, the list is not empty, thus add at correct location
+
+		{
+
+			item *temp;
+
+			temp=head;
+
+			while(temp->next) temp=temp->next;
+
+			curr->next=NULL;
+
+			temp->next = curr;
+
+		}
+
+		curr=(item*)malloc(sizeof(item)); //Allocate mem space for curr node
+
+	}
+
+	curr = head;
+
+	fclose(FP); //Close the FILE
+
+}
+
+/*
+
+	Objective: The objective of the saveStudentInfo function is to save all of the studentData stored in
+
+			the linked list in a text file. 
+
+	Input: The input of this function is a linked list containing all of the student data
+
+	Output: The output of this function is a text file containing all of the data which was stored in the linked list
+
+*/
+
+void saveStudentInfo()
+
+{
+
+	int r;
+
+	item *curr=head;
+
+	FILE *FP;
+
+	FP = fopen("studentList.txt","w"); //Open file for writing
+
+	while(curr) //Save up to the end of link
+
+	{
+
+		fprintf(FP,"%d\n", curr->studentID);
+
+		fprintf(FP,"%s\n", curr->First);
+
+		fprintf(FP,"%s\n", curr->Last);
+
+		fprintf(FP,"%d\n", curr->Courses);
+
+		for(r=0;r<(curr->Courses);r++)
+
+			fprintf(FP,"%s %d\n", curr->courseinfo[r].courseName,curr->courseinfo[r].courseID);
+
+		curr=curr->next; //Go to next node
+
+	}	
+
+	fprintf(FP,"***"); //Print our File delimiter
+
+	fclose(FP); //Close File
+
+}
+
+/*
+
+	Objective: The objective of this function is to print all of the data stored in the linked list
+
+			on the screen in a neat format.
+
+	Input: The input of this function is a linked list containing all of the student data
+
+	Output: The output of this function is the data stored in the linked list outputted to the screen
+
+*/
+
+void displayStudentInfo()
+
+{
+
+	int r=0,c=1;
+
+	item *curr = head;
+
+	while(curr) //Loop until end of link
+
+	{
+
+		printf("\nStudent %d:\n",c);
+
+		printf("%d\n", curr->studentID);
+
+		printf("%s\n", curr->First);
+
+		printf("%s\n", curr->Last);
+
+		printf("%d\n", curr->Courses);
+
+		for(r=0;r<(curr->Courses);r++)
+
+			printf("%s %d\n", curr->courseinfo[r].courseName,curr->courseinfo[r].courseID);
+
+		curr=curr->next;
+
+		c++;
+
+	}
+
+}
+
+/*
+
+	Objective: The objective of the exit function is to save the student data
+
+			upon exiting the program
+
+	Input: The input of this function is a linked list containing student data
+
+	Output: The output of this function is a file containing all the student data
+
+*/
+
+void EXIT()
+
+{
+
+	saveStudentInfo();
+
+	printf("Student List Saved Successfully\n");
+
+	printf("Bye!\n");
+
+}
+
+fontana1@alpha:~$ cat studentList.e[Ktxt
+
+111111111
+
+Lisa
+
+Porter
+
+3
+
+ENEE 114
+
+CMSC 412
+
+ENME 515
+
+333333333
+
+Alex
+
+Simpson
+
+1
+
+CMSC 412
+
+***fontana1@alpha:~$ cc assign5.c
+
+fontana1@alpha:~$ cc assign5.cat studentList.txtassign5.c[K./a.out[Kcc lab9b.c./a.out[K 
+
+
+
+Assignment 5
+
+Choose an option
+
+	A. Add Student
+
+	B. Delete Student
+
+	C. Search Student
+
+	D. Display Students
+
+	E. Save Student Info
+
+	Q. Quit
+
+a
+
+
+
+Adding new Student
+
+StudentID: 222222222
+
+First Name: john
+
+Last Name: rezaei
+
+Number of Courses: 2
+
+Course ID: 412
+
+Couse Name: CMSC
+
+Course ID: 123
+
+Couse Name: MATH
+
+
+
+Assignment 5
+
+Choose an option
+
+	A. Add Student
+
+	B. Delete Student
+
+	C. Search Student
+
+	D. Display Students
+
+	E. Save Student Info
+
+	Q. Quit
+
+d
+
+
+
+
+
+Student 1:
+
+111111111
+
+Lisa
+
+Porter
+
+3
+
+ENEE 114
+
+CMSC 412
+
+ENME 515
+
+
+
+Student 2:
+
+222222222
+
+John
+
+Rezaei
+
+2
+
+CMSC 412
+
+MATH 123
+
+
+
+Student 3:
+
+333333333
+
+Alex
+
+Simpson
+
+1
+
+CMSC 412
+
+
+
+Assignment 5
+
+Choose an option
+
+	A. Add Student
+
+	B. Delete Student
+
+	C. Search Student
+
+	D. Display Students
+
+	E. Save Student Info
+
+	Q. Quit
+
+c
+
+
+
+What is the last name of the student? porter
+
+111111111
+
+Lisa
+
+Porter
+
+3
+
+ENEE 114
+
+CMSC 412
+
+ENME 515
+
+
+
+Assignment 5
+
+Choose an option
+
+	A. Add Student
+
+	B. Delete Student
+
+	C. Search Student
+
+	D. Display Students
+
+	E. Save Student Info
+
+	Q. Quit
+
+b
+
+
+
+Enter a ID to delete: 111111111
+
+
+
+Student Removed
+
+
+
+Assignment 5
+
+Choose an option
+
+	A. Add Student
+
+	B. Delete Student
+
+	C. Search Student
+
+	D. Display Students
+
+	E. Save Student Info
+
+	Q. Quit
+
+d
+
+
+
+
+
+Student 1:
+
+222222222
+
+John
+
+Rezaei
+
+2
+
+CMSC 412
+
+MATH 123
+
+
+
+Student 2:
+
+333333333
+
+Alex
+
+Simpson
+
+1
+
+CMSC 412
+
+
+
+Assignment 5
+
+Choose an option
+
+	A. Add Student
+
+	B. Delete Student
+
+	C. Search Student
+
+	D. Display Students
+
+	E. Save Student Info
+
+	Q. Quit
+
+q
+
+
+
+Student List Saved Successfully
+
+Bye!
+
+fontana1@alpha:~$ ls -l
+
+total 291
+
+-rwxr-xr-x 1 fontana1 temp 12042 Apr  2 13:01 [0m[01;32ma.out[0m
+
+-rw-r--r-- 1 fontana1 temp  7598 Mar  4 22:06 assign1.txt
+
+-rw-r--r-- 1 fontana1 temp 12062 Feb 15 18:17 assign2.c
+
+-rw-r--r-- 1 fontana1 temp 27893 Feb 15 18:21 assign2.txt
+
+-rw-r--r-- 1 fontana1 temp 13066 Mar 19 16:16 assign4.txt
+
+-rw-r--r-- 1 fontana1 temp 12800 Apr  2 13:03 assign5.txt
+
+drwxr-xr-x 4 fontana1 temp    57 Mar 18 19:55 [01;34mCS[0m
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mDesktop[0m
+
+drwxr-xr-x 2 fontana1 temp     3 Apr  1 17:15 [01;34mDocuments[0m
+
+drwxr-xr-x 2 fontana1 temp     4 Feb 25 18:56 [01;34mDownloads[0m
+
+-rw-r--r-- 1 fontana1 temp   352 Apr  1 20:00 employee.dat
+
+-rw-r--r-- 1 fontana1 temp  3407 Feb 14 15:24 I2.c
+
+-rw-r--r-- 1 fontana1 temp     0 Feb  4 19:53 I2.c~
+
+-rw-r--r-- 1 fontana1 temp 12062 Feb 15 18:17 I2n.c
+
+-rw-r--r-- 1 fontana1 temp  1593 Jan 30 17:34 IA1 (2).c
+
+-rw-r--r-- 1 fontana1 temp  6148 Jan 31 11:33 IA12.c
+
+-rw-r--r-- 1 fontana1 temp  1595 Jan 30 12:36 IA1.c
+
+-rw-r--r-- 1 fontana1 temp   710 Jan 28 19:19 IA1.c~
+
+-rw-r--r-- 1 fontana1 temp  1629 Jan 20 14:15 IA2.c~
+
+-rw-r--r-- 1 fontana1 temp  5647 Mar  4 15:31 IA3.c
+
+-rw-r--r-- 1 fontana1 temp  6991 Mar 19 16:13 IA4.c
+
+-rw-r--r-- 1 fontana1 temp  5641 Apr  2 12:30 IA5a.c
+
+-rw-r--r-- 1 fontana1 temp  9179 Apr  2 12:44 IA5b.c
+
+-rw-r--r-- 1 fontana1 temp 10739 Apr  2 13:00 assign5.c
+
+-rw-r--r-- 1 fontana1 temp    69 Mar  8 19:25 IA6.c
+
+-rw-r--r-- 1 fontana1 temp  1446 Jan 30 17:31 i.c
+
+-rw-r--r-- 1 fontana1 temp    10 Jan 31 11:12 input.txt
+
+-rw-r--r-- 1 fontana1 temp     3 Jan 28 19:12 input.txt~
+
+-rw-r--r-- 1 fontana1 temp  4501 Feb  4 19:50 l3.c
+
+-rw-r--r-- 1 fontana1 temp  4527 Feb  4 19:49 l3.c~
+
+-rw-r--r-- 1 fontana1 temp   346 Feb 10 14:28 L4.c
+
+-rw-r--r-- 1 fontana1 temp  3213 Apr  2 11:01 lab10.c
+
+-rw-r--r-- 1 fontana1 temp  4729 Jan 28 19:51 lab1.c
+
+-rw-r--r-- 1 fontana1 temp  4728 Jan 28 19:51 lab1.c~
+
+-rw-r--r-- 1 fontana1 temp  4500 Jan 28 19:48 lab2.c
+
+-rw-r--r-- 1 fontana1 temp  4461 Jan 28 19:07 lab2.c~
+
+-rw-r--r-- 1 fontana1 temp  3224 Feb  2 22:40 lab3.c
+
+-rw-r--r-- 1 fontana1 temp  2029 Feb 11 19:22 lab4.c
+
+-rw-r--r-- 1 fontana1 temp  2029 Feb 11 19:22 lab4.c~
+
+-rw-r--r-- 1 fontana1 temp  1218 Feb 25 19:00 lab5a.c
+
+-rw-r--r-- 1 fontana1 temp  1249 Feb 25 17:46 lab5a.c~
+
+-rw-r--r-- 1 fontana1 temp  2482 Feb 25 19:00 lab5.c
+
+-rw-r--r-- 1 fontana1 temp  2936 Feb 25 19:27 lab5.c~
+
+-rw-r--r-- 1 fontana1 temp   878 Mar  9 14:40 lab6.c
+
+-rw-r--r-- 1 fontana1 temp  1787 Mar  4 19:59 lab6.c~
+
+-rw-r--r-- 1 fontana1 temp  3209 Mar 18 17:37 lab7a.c
+
+-rw-r--r-- 1 fontana1 temp  2146 Mar 11 20:14 lab7a.c~
+
+-rw-r--r-- 1 fontana1 temp  1120 Mar 18 17:40 lab7b.c
+
+-rw-r--r-- 1 fontana1 temp  2357 Mar 11 18:54 lab7.c
+
+-rw-r--r-- 1 fontana1 temp  1644 Mar 31 13:18 lab8a.c
+
+-rw-r--r-- 1 fontana1 temp  1126 Mar 18 20:11 lab8a.c~
+
+-rw-r--r-- 1 fontana1 temp  1041 Mar 25 19:14 lab8b.c
+
+-rw-r--r-- 1 fontana1 temp  1041 Mar 25 19:03 lab8b.c~
+
+-rw-r--r-- 1 fontana1 temp  2058 Apr  1 19:52 lab9a.c
+
+-rw-r--r-- 1 fontana1 temp  2020 Apr  1 19:50 lab9a.c~
+
+-rw-r--r-- 1 fontana1 temp  1388 Apr  1 19:51 lab9b.c
+
+-rw-r--r-- 1 fontana1 temp  1352 Apr  1 19:47 lab9b.c~
+
+-rw-r--r-- 1 fontana1 temp   926 Feb 11 12:17 lI3.c
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mMusic[0m
+
+-rw-r--r-- 1 fontana1 temp   264 Mar 18 02:03 n.c
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mPictures[0m
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mPublic[0m
+
+-rw-r--r-- 1 fontana1 temp  3837 Mar  9 16:08 s_IA4.c
+
+-rw-r--r-- 1 fontana1 temp    88 Apr  1 18:18 studentList.txt
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mTemplates[0m
+
+drwxr-xr-x 2 fontana1 temp     4 Sep  9  2014 [01;34mTest[0m
+
+-rw-r--r-- 1 fontana1 temp   403 Mar 18 00:52 test.c
+
+-rw-r--r-- 1 fontana1 temp   266 Mar  4 19:40 test.c~
+
+-rw-r--r-- 1 fontana1 temp    50 Sep 11  2014 test.m~
+
+-rw-r--r-- 1 fontana1 temp   121 Mar 19 13:38 text.txt
+
+-rw-r--r-- 1 fontana1 temp   645 Feb 11 19:13 trace.c
+
+-rw-r--r-- 1 fontana1 temp     1 Mar  3 16:23 t.txt
+
+drwxr-xr-x 2 fontana1 temp     3 Mar  3 20:59 [01;34mVideos[0m
+
+-rw-r--r-- 1 fontana1 temp   494 Mar  3 16:02 w.c
+
+fontana1@alpha:~$ exit
+
+exit
+
+
+Script done on Thu 02 Apr 2015 01:03:16 PM EDT
