@@ -1,32 +1,45 @@
-Programming Exercise 1 (30 points): [call it Ass_1-a.asm]
+Programming Exercise 1 (25 points):
 ==========
-Write an ASM program that will count the total number of characters, the number of lowercase characters, the numbers of decimal digits, and the number of blank characters contained in a text. You can implement anyone of the following alternatives.
-You can read the input text from the keyboard. For example, if you read the following three-line text from the keyboard
- 
-     This is :
-     A Sample Input,
-     With Numbers 5 and 8.
-Then your program Ass_1-a.exe should display the following 2 lines:
- 
-     This file contains 45 characters: out of which,
-     26 are lowercase characters; 2 are decimal numbers; and, 8 are blank characters.
- 
-Programming Exercise 2 (30 points): [call it Ass_1-b.asm]
+The greatest common divisor (GCD) of two integers is the largest integer that will evenly divide both integers. The GCD algorithm involves integer division in a loop, described by the following C/C++/Java code
+
+    int GCD(int x, int y) 
+    {
+        x = abs(x);
+        y = abs(y);
+    do 
+    {
+        int n = x % y;
+        x = y;
+        y = n;
+    }
+    while y > 0;
+        return y; 
+    }
+
+ Write the GCD function in ASM and write a piece of the main program code that calls this function with parameters x and y. GCD function should return a value in register EAX.
+
+The greatest common divisor (GCD) of two integers X and Y is the largest integer Z that will evenly divide both integers. The GCD algorithm involves integer division in a loop; it is shown in the Question #1 of Final Exam 2005; see attachment.
+
+Write the GCD function in ASM. Your main program must call this function with parameters X and Y. GCD function should return the  value Z in register EAX, and the main program should display this value Z. 
+
+Programming Exercise 2 (25 points):
 ==========
-Write an ASM program that reads an integer number N and then displays the first N values of the Fibonacci number sequence, described by:
-Fib(0) = 0, Fib(1) = 1, Fib(N) = Fib(N-2) + Fib(N-1)
- 
-Thus, if the input is N = 10, your program Ass_1-b.exe should display the following single line:
+Write the following recursive Greatest Common Divisor (GCD) program into ASM.
 
-    Fibonacci sequence with N = 10 is:  0   1   1   2   3   5   8   13   21   34   55
+    public static long GCD(long a, long b)
+    {
+    If (b == 0)
+        return a;
+    Else
+        return GCD(b, a % b); 
+    }
 
-Programming Exercise 3 (40 points): [call it Ass_1-c.asm]
+Function GCD returns a value into EAX. Also, write a piece of the main program code that calls GCD. Assume that the Caller cleans the stack.
+
+Programming Exercise 3 (25 points):
 ==========
-Write an ASM program that prompts the user to enter a string of at most 128 characters and then displays the string in reverse order, with each upper-case letter converted to its corresponding lower-case letter. For instance, a sample execution of “Ass1-3.exe" with the input string “An InpuT Line!” is shown below
+Write an iterative (that is, a non-recursive) procedure for calculating the factorial of an integer number N. Also, you should write a MAIN procedure that calls the factorial procedure with parameter N, and display the result.
 
-     C:\Programming\asm>Ass_1-c
-     Enter a string of at most 128 characters:  An InpuT Line!
-     Here it is in LOWERCASE and in reverse order:
-     !enil tupni na
- 
-     C:\Programming\asm>
+Programming Exercise 4 (25 points):
+==========
+Write a program that generates all prime numbers between 2 and 1000, using the Sieve of Eratosthenes method. You can find many articles that describe the method for finding primes in this manner on the Internet. Display all the prime values.
