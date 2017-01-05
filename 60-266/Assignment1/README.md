@@ -13,3 +13,11 @@ Fibonacci sequence with N = 10 is:  0   1   1   2   3   5   8   13   21   34   5
 Programming Exercise 3 (40 points): [call it Ass_1-c.asm]
 ==========
 Write an ASM program that prompts the user to enter a string of at most 128 characters and then displays the string in reverse order, with each upper-case letter converted to its corresponding lower-case letter. For instance, a sample execution of “Ass1-3.exe" with the input string “An InpuT Line!” is shown below
+
+   C:\Programming\asm>Ass_1-c
+     Enter a string of at most 128 characters:  An InpuT Line!
+    
+     Here it is in LOWERCASE and in reverse order:
+     !enil tupni na
+ 
+     C:\Programming\asm>
