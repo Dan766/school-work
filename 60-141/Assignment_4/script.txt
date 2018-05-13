@@ -1,0 +1,736 @@
+Script started on Thu 19 Mar 2015 04:14:37 PM EDT
+fontana1@alpha:~$ exit./a.out <text.txtcc assign4.c[K
+
+fontana1@alpha:~$ cc assign4.cexit[K./a.out <text.txtexit[Kcc assign4.c[Kcat assign4.c
+
+#include<stdio.h>
+
+#include<stdlib.h>
+
+#include<string.h>
+
+
+
+//structure for course information
+
+struct CourseInfo {
+
+    int courseID;
+
+    char courseName[50];
+
+    char courseCode[12];
+
+    char Term[6];
+
+};
+
+typedef struct CourseInfo courseinfo_t; //Gives our structure a alias to make it easier to reference
+
+
+
+int loadCourseInfo(courseinfo_t *course); //reads course info and stores in structure
+
+void allupper(courseinfo_t *course,int); //Makes all chars in a string uppercase 
+
+void displayCourseInfo(courseinfo_t *course, int); //prints all course information in table
+
+void searchCourseInfo(courseinfo_t *course, int); //used for search structures 
+
+void addCourseInfo(courseinfo_t *course, int *); //Used to add a new course entry to structures
+
+//Main function
+
+int main (void)
+
+{
+
+	int Entries; //The number of courses entered
+
+	courseinfo_t course[30]; //creates a array of type Courseintfo_t
+
+	char choice;
+
+	
+
+	Entries=loadCourseInfo(course); //Reads our data from text file
+
+	freopen("/dev/tty", "r", stdin); //Turns off input redirection so user can input data
+
+
+
+	while (toupper(choice) != 'Q') //Loops until user quits
+
+	{
+
+		// Prints a selection menu onto the screen
+
+		printf("\nCourses Program: Assignment 4");
+
+		printf("\nChoose an option\n");
+
+		printf("\tA. Add Course\n"); 
+
+		printf("\tB. Display Courses\n");
+
+		printf("\tC. Search Courses\n");
+
+		printf("\tQ. Quit\n");
+
+		scanf("%s",&choice);
+
+		printf("\n");
+
+		switch (toupper(choice))
+
+		{
+
+		//If the E option is chosen then the AddCourse function will run
+
+		case 'A':
+
+			printf("\tAddCourse\n\t========");
+
+			addCourseInfo(course, &Entries);
+
+			break;
+
+		//If the E option is chosen then the DisplayCourseInfo function will run
+
+		case 'B':
+
+			printf("\tDisplayCourses\n\t===========");
+
+			displayCourseInfo(course, Entries);
+
+			break;
+
+		//If the E option is chosen then the Search function will run
+
+		case 'C':
+
+			printf("\tSearch\n\t==========");
+
+			searchCourseInfo(course, Entries);
+
+			break;
+
+		//If user types 'q' than the programs exits
+
+		case 'Q':
+
+			printf("Have a nice day!\n");
+
+			break;
+
+		//If non of the above values are entered than an prompt appears telling user the char is invalid
+
+		default:	
+
+			printf("INVALID OPTION!");
+
+			break;
+
+		}
+
+	}
+
+	return 0; //Program End
+
+}
+
+/*
+
+	Objective: This objective of this function is to make all courseName
+
+		char values of a given structure uppercase. 
+
+	Input: A pointer to a given array of structs 
+
+	Output: The inputted array of char values in uppercase only
+
+*/
+
+void allupper(courseinfo_t *course,int id)
+
+{
+
+	int r=0;
+
+	for (r=0;course[id-1].courseName[r]!='\0';r++)
+
+	{
+
+		course[id-1].courseName[r] = toupper(course[id-1].courseName[r]);
+
+	}
+
+	return;
+
+}
+
+/*
+
+	Objective: This objective of this function is search a array of structures
+
+		representing course info looking for courses which match a given course ID
+
+		or Name. 
+
+	Input: A pointer to a given array of Structures, and the total number of courses
+
+	Output: The output is either the course information of courses which match the 
+
+		search key, or an error stating that the search key does not exist in the course info
+
+*/
+
+void searchCourseInfo(courseinfo_t *course,int total)
+
+{
+
+	int r, id=7,found;
+
+	char name[20],ch='a';
+
+	Fail: //If entry was invalid rety:
+
+	printf("\nEnter '0' to search by Course ID or '1' to search by Course Name: ");
+
+	scanf("%d", &id);
+
+	if (id==0) //Search ID
+
+	{
+
+		printf("\nEnter a Course ID to search: ");
+
+		scanf("%d", &id);
+
+		for(r=0;r<total;r++)
+
+		{
+
+			if (course[r].courseID==id) {
+
+				printf("\n\tID  Course\t  Code\t\tTerm\n");
+
+				printf("\t%d   %-14s%-14s%-10s\n",course[r].courseID,course[r].courseName,course[r].courseCode,course[r].Term); //Print info in Table Format
+
+				found=1;
+
+			}
+
+		}
+
+		if (!found) printf("\tNo Courses with that ID exist\n");
+
+	}
+
+	else if (id==1) //Search Course Name
+
+	{
+
+		printf("\nEnter a Course Name to search: ");
+
+		scanf("%s", name);
+
+		for (r=0;name[r]!='\0';r++) name[r] = toupper(name[r]);
+
+		for(r=0;r<total;r++)
+
+		{
+
+			if (0==strcmp(course[r].courseName,name)) {
+
+				printf("\n\tID  Course\t  Code\t\tTerm\n");
+
+				printf("\t%d   %-14s%-14s%-10s\n",course[r].courseID,course[r].courseName,course[r].courseCode,course[r].Term); //Print Info in table format
+
+				found=1;
+
+			}
+
+		}
+
+		if (!found) printf("\tNo Courses with that Name exist\n");	
+
+	}
+
+	else 
+
+	{
+
+		printf("INVALID ENTRY");
+
+		goto Fail; //If entry invalid return to top
+
+	}
+
+	return;
+
+}
+
+/*
+
+	Objective: This objective of this function is access a array of structures
+
+		representing course info and add a new course element to the array.
+
+	Input: A pointer to a given array of Structures, and the total number of courses
+
+	Output: The output is the modified array of structures now containing the added course info
+
+*/
+
+void addCourseInfo(courseinfo_t *course,int *total)
+
+{
+
+	int r=0;
+
+	printf("\nNew couse ID is %d:", *total+1);
+
+	printf("\n\tEnter a	new Course Name: ");
+
+	scanf("%s", course[*total].courseName);
+
+	allupper(course, *total+1); //Puts coursename in uppercase
+
+	printf("\n\tEnter a new Course Code(****-***-**): ");
+
+	scanf("%11s", course[*total].courseCode);
+
+	printf("\n\tEnter a new Course Term(MonthYear): ");
+
+	scanf("%5s", course[*total].Term);
+
+	course[*total].courseID = *total+1;
+
+	*total+=1;
+
+	return; //Functio End
+
+}
+
+/*
+
+	Objective: This objective of this function is to print all course information 
+
+		found in the course array structure
+
+	Input: A pointer to a given array of Structures, and the total number of courses
+
+	Output: The output is all the course information outputed in a table format
+
+*/
+
+void displayCourseInfo(courseinfo_t *course,int total)
+
+{
+
+	int r;
+
+	printf("\nID  Course\t  Code\t\tTerm\n");//Print header
+
+	for (r=0;r<total;r++)
+
+	{
+
+		printf("%d   %-14s%-14s%-10s\n",course[r].courseID,course[r].courseName,course[r].courseCode,course[r].Term); //Print data in table format
+
+	}
+
+	return; //Function End
+
+}
+
+/*
+
+	Objective: This objective of this function is to read information from a file through
+
+		input redirection and place all the found data into a array of structures 
+
+	Input: A pointer to a given array of Structures
+
+	Output: The output is the array of structures filled with all the info read from the file. 
+
+*/
+
+int loadCourseInfo(courseinfo_t *course)
+
+{
+
+	int r=0,c;
+
+	char *t,info[100],temp[20];
+
+	for(r=0;r<4;r++){
+
+		//puts all of the given input line into the info array
+
+		scanf("%s",info);
+
+		//Scans for CourseName
+
+		t = strtok(info, ","); 
+
+		strcpy(course[r].courseName,t);
+
+		allupper(course, r+1); //Changes all course Name chars to Uppercase
+
+		t = strtok(NULL, ","); 
+
+		//Scans for courseCode
+
+		strcpy(course[r].courseCode,t);
+
+		t = strtok(NULL, ","); 
+
+		strcat(course[r].courseCode,t);	
+
+		t = strtok(NULL, ","); 
+
+		strcat(course[r].courseCode,"-");
+
+		strcat(course[r].courseCode,t);	
+
+		t = strtok(NULL, ","); 
+
+		strcat(course[r].courseCode,"-");
+
+		strcat(course[r].courseCode,t);
+
+		//Scans Term 
+
+		t = strtok(NULL, ","); 
+
+		strcpy(course[r].Term,t);
+
+		t = strtok(NULL, ","); 
+
+		strcat(course[r].Term,t);
+
+		//CourseID		
+
+		course[r].courseID = r+1; 
+
+	}
+
+	return 4; //Returns the number of inputs
+
+}fontana1@alpha:~$ cat text.txt
+
+programming,03,60,141,01,W,2015
+
+programming,03,60,141,30,W,2015
+
+Algebra,03,62,102,02,S,2013
+
+Religion,08,98,938,20,F,2014
+fontana1@alpha:~$ c [KcI[K assign4.c
+
+fontana1@alpha:~$ a.out < txt[K[Kext.txt
+
+a.out: command not found
+
+fontana1@alpha:~$ ./a.out<text.txt
+
+
+
+Courses Program: Assignment 4
+
+Choose an option
+
+	A. Add Course
+
+	B. Display Courses
+
+	C. Search Courses
+
+	Q. Quit
+
+A
+
+
+
+	AddCourse
+
+	========
+
+New couse ID is 5:
+
+	Enter a	new Course Name: NewCourse
+
+
+
+	Enter a new Course Code(****-***-**): 1990-666-11
+
+
+
+	Enter a new Course Term(MonthYear): W1990
+
+
+
+Courses Program: Assignment 4
+
+Choose an option
+
+	A. Add Course
+
+	B. Display Courses
+
+	C. Search Courses
+
+	Q. Quit
+
+b
+
+
+
+	DisplayCourses
+
+	===========
+
+ID  Course	  Code		Term
+
+1   PROGRAMMING   0360-141-01   W2015     
+
+2   PROGRAMMING   0360-141-30   W2015     
+
+3   ALGEBRA       0362-102-02   S2013     
+
+4   RELIGION      0898-938-20   F2014     
+
+5   NEWCOURSE     1990-666-11   W1990     
+
+
+
+Courses Program: Assignment 4
+
+Choose an option
+
+	A. Add Course
+
+	B. Display Courses
+
+	C. Search Courses
+
+	Q. Quit
+
+C
+
+
+
+	Search
+
+	==========
+
+Enter '0' to search by Course ID or '1' to search by Course Name: 0
+
+
+
+Enter a Course ID to search: 3
+
+
+
+	ID  Course	  Code		Term
+
+	3   ALGEBRA       0362-102-02   S2013     
+
+
+
+Courses Program: Assignment 4
+
+Choose an option
+
+	A. Add Course
+
+	B. Display Courses
+
+	C. Search Courses
+
+	Q. Quit
+
+c
+
+
+
+	Search
+
+	==========
+
+Enter '0' to search by Course ID or '1' to search by Course Name: 1
+
+
+
+Enter a Course Name to search: progrAmming
+
+
+
+	ID  Course	  Code		Term
+
+	1   PROGRAMMING   0360-141-01   W2015     
+
+
+
+	ID  Course	  Code		Term
+
+	2   PROGRAMMING   0360-141-30   W2015     
+
+
+
+Courses Program: Assignment 4
+
+Choose an option
+
+	A. Add Course
+
+	B. Display Courses
+
+	C. Search Courses
+
+	Q. Quit
+
+Q
+
+
+
+Have a nice day!
+
+fontana1@alpha:~$ e[Kls -l
+
+total 235
+
+-rwxr-xr-x 1 fontana1 temp 11840 Mar 19 16:15 [0m[01;32ma.out[0m
+
+-rw-r--r-- 1 fontana1 temp  7598 Mar  4 22:06 assign1.txt
+
+-rw-r--r-- 1 fontana1 temp 12062 Feb 15 18:17 assign2.c
+
+-rw-r--r-- 1 fontana1 temp 27893 Feb 15 18:21 assign2.txt
+
+-rw-r--r-- 1 fontana1 temp  9216 Mar 19 16:16 assign4.txt
+
+drwxr-xr-x 4 fontana1 temp    57 Mar 18 19:55 [01;34mCS[0m
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mDesktop[0m
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mDocuments[0m
+
+drwxr-xr-x 2 fontana1 temp     4 Feb 25 18:56 [01;34mDownloads[0m
+
+-rw-r--r-- 1 fontana1 temp    40 Mar 18 20:17 employee.dat
+
+-rw-r--r-- 1 fontana1 temp  3407 Feb 14 15:24 I2.c
+
+-rw-r--r-- 1 fontana1 temp     0 Feb  4 19:53 I2.c~
+
+-rw-r--r-- 1 fontana1 temp 12062 Feb 15 18:17 I2n.c
+
+-rw-r--r-- 1 fontana1 temp  1593 Jan 30 17:34 IA1 (2).c
+
+-rw-r--r-- 1 fontana1 temp  6148 Jan 31 11:33 IA12.c
+
+-rw-r--r-- 1 fontana1 temp  1595 Jan 30 12:36 IA1.c
+
+-rw-r--r-- 1 fontana1 temp   710 Jan 28 19:19 IA1.c~
+
+-rw-r--r-- 1 fontana1 temp  1629 Jan 20 14:15 IA2.c~
+
+-rw-r--r-- 1 fontana1 temp  5647 Mar  4 15:31 IA3.c
+
+-rw-r--r-- 1 fontana1 temp  6991 Mar 19 16:13 assign4.c
+
+-rw-r--r-- 1 fontana1 temp    69 Mar  8 19:25 IA6.c
+
+-rw-r--r-- 1 fontana1 temp  1446 Jan 30 17:31 i.c
+
+-rw-r--r-- 1 fontana1 temp    10 Jan 31 11:12 input.txt
+
+-rw-r--r-- 1 fontana1 temp     3 Jan 28 19:12 input.txt~
+
+-rw-r--r-- 1 fontana1 temp  4501 Feb  4 19:50 l3.c
+
+-rw-r--r-- 1 fontana1 temp  4527 Feb  4 19:49 l3.c~
+
+-rw-r--r-- 1 fontana1 temp   346 Feb 10 14:28 L4.c
+
+-rw-r--r-- 1 fontana1 temp  4729 Jan 28 19:51 lab1.c
+
+-rw-r--r-- 1 fontana1 temp  4728 Jan 28 19:51 lab1.c~
+
+-rw-r--r-- 1 fontana1 temp  4500 Jan 28 19:48 lab2.c
+
+-rw-r--r-- 1 fontana1 temp  4461 Jan 28 19:07 lab2.c~
+
+-rw-r--r-- 1 fontana1 temp  3224 Feb  2 22:40 lab3.c
+
+-rw-r--r-- 1 fontana1 temp  2029 Feb 11 19:22 lab4.c
+
+-rw-r--r-- 1 fontana1 temp  2029 Feb 11 19:22 lab4.c~
+
+-rw-r--r-- 1 fontana1 temp  1218 Feb 25 19:00 lab5a.c
+
+-rw-r--r-- 1 fontana1 temp  1249 Feb 25 17:46 lab5a.c~
+
+-rw-r--r-- 1 fontana1 temp  2913 Feb 25 19:42 lab5.c
+
+-rw-r--r-- 1 fontana1 temp  2936 Feb 25 19:27 lab5.c~
+
+-rw-r--r-- 1 fontana1 temp   878 Mar  9 14:40 lab6.c
+
+-rw-r--r-- 1 fontana1 temp  1787 Mar  4 19:59 lab6.c~
+
+-rw-r--r-- 1 fontana1 temp  3209 Mar 18 17:37 lab7a.c
+
+-rw-r--r-- 1 fontana1 temp  2146 Mar 11 20:14 lab7a.c~
+
+-rw-r--r-- 1 fontana1 temp  1120 Mar 18 17:40 lab7b.c
+
+-rw-r--r-- 1 fontana1 temp  2357 Mar 11 18:54 lab7.c
+
+-rw-r--r-- 1 fontana1 temp  1213 Mar 18 20:11 lab8a.c
+
+-rw-r--r-- 1 fontana1 temp  1126 Mar 18 20:11 lab8a.c~
+
+-rw-r--r-- 1 fontana1 temp   720 Mar 18 20:05 lab8b.c
+
+-rw-r--r-- 1 fontana1 temp   716 Mar 18 20:03 lab8b.c~
+
+-rw-r--r-- 1 fontana1 temp   926 Feb 11 12:17 lI3.c
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mMusic[0m
+
+-rw-r--r-- 1 fontana1 temp   264 Mar 18 02:03 n.c
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mPictures[0m
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mPublic[0m
+
+drwxr-xr-x 2 fontana1 temp     2 Sep 11  2014 [01;34mTemplates[0m
+
+drwxr-xr-x 2 fontana1 temp     4 Sep  9  2014 [01;34mTest[0m
+
+-rw-r--r-- 1 fontana1 temp   403 Mar 18 00:52 test.c
+
+-rw-r--r-- 1 fontana1 temp   266 Mar  4 19:40 test.c~
+
+-rw-r--r-- 1 fontana1 temp    50 Sep 11  2014 test.m~
+
+-rw-r--r-- 1 fontana1 temp   121 Mar 19 13:38 text.txt
+
+-rw-r--r-- 1 fontana1 temp   645 Feb 11 19:13 trace.c
+
+-rw-r--r-- 1 fontana1 temp     1 Mar  3 16:23 t.txt
+
+drwxr-xr-x 2 fontana1 temp     3 Mar  3 20:59 [01;34mVideos[0m
+
+-rw-r--r-- 1 fontana1 temp   494 Mar  3 16:02 w.c
+
+fontana1@alpha:~$ exit
+
+exit
+
+
+Script done on Thu 19 Mar 2015 04:16:32 PM EDT

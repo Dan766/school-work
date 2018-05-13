@@ -1,0 +1,105 @@
+Script started on Thu 25 Sep 2014 10:55:31 AM EDT
+fontana1@bravo:~/CS/60-140$ cat fontana1_alg1.txt
+Main Algorithm - Daniel Fontana
+ID: 104238738
+{
+    // Declares Variables
+    Input data: weight_in_lbs, temp_in_fer, dist_in_miles, dist_in_yards, dist_in_inches;  (Real)
+	
+    Output data: weight_in_kg, temp_in_c, dist_in_km, dist_in_meters, dist_in_cm; 	(Real)
+
+    // Main body of program
+    // Ask user to enter in values for our input variables
+    print("Type the number of lbs you want to convert to Kg: ");
+    read(weight_in_lbs);
+    print("Type the number of F you want converted to C: ");
+    read(temp_in_fer);
+    print("Type the number of miles you want converted to Kilometers: ");
+    read(dist_in_miles);
+    print("Type the number of yards you want converted to meters: ");
+    read(dist_in_yards);
+    print("Type the number of inches you want converted to centimeters: ");
+    read(dist_in_inches);
+
+    // Calculate the results(output variables)
+    weight_in_kg = weight_in_lbs*.453592
+    temp_in_c = ((temp_in_fer-32) *5) / 9
+    dist_in_km = dist_in_miles*1.609344
+    dist_in_meters = dist_in_yards*.9144
+    dist_in_cm = dist_in_inches*2.54 
+
+    // Prints out the output variables we calculated
+    print(weight_in_lbs, "lbs is equivalent to”, weight_in_kg ,“kg");
+    print(temp_in_fer, "F is equivalent to", temp_in_c ,”C”);
+    print(dist_in_miles, "miles is equivalent to”, dist_in_km ,”km");
+    print(dist_in_yards, "yards is equivalent to”, dist_in_meters ,”meters");
+    print(dist_in_inches, "inches is equivalent to”, dist_in_cm ,”cm");
+
+    // Ends the program
+    End
+}
+fontana1@bravo:~/CS/60-140$ cat fontana1_and[Ks1.c
+//Assignment 1: 60-140
+//By Daniel Fontana
+#include <stdio.h>
+int main(void)
+{
+	//Input Variables
+	float weight_in_lbs, temp_in_fer, dist_in_miles, dist_in_yards, dist_in_inches; 
+	//Output Variables
+	float weight_in_kg, temp_in_c, dist_in_km, dist_in_meters, dist_in_cm;
+	
+	//Prints a title along with my name
+	printf("\n\tAssignment 1: 60-140");
+	printf("\n\t   Daniel Fontana");
+	printf("\n\t********************");
+	
+	//Requests user to enter in the float values that they wish to have converted
+	printf( "\nType the number of lbs you want to convert to Kg: ");
+	scanf("%f", &weight_in_lbs);
+	printf( "Type the number of F you want converted to C: ");
+	scanf("%f", &temp_in_fer);
+	printf( "Type the number of miles you want converted to Kilometers: ");
+	scanf("%f", &dist_in_miles);
+	printf( "Type the number of yards you want converted to meters: ");
+	scanf("%f", &dist_in_yards);
+	printf( "Type the number of inches you want converted to centimeters: ");
+	scanf("%f", &dist_in_inches);
+	
+	//Performs operations on the entered values to convert them
+	weight_in_kg = weight_in_lbs*.453592;
+	temp_in_c = (((temp_in_fer-32)*5) / 9);
+	dist_in_km = dist_in_miles*1.60934;
+	dist_in_meters = dist_in_yards*.9144;
+	dist_in_cm = dist_in_inches*2.54;
+	
+	//Prints out the original values along with the new converted ones
+	printf("\n%.1f lbs is equivalent to: %.3f kg\n", weight_in_lbs, weight_in_kg);
+	printf("%.1f F is equivalent to: %.3f C\n", temp_in_fer, temp_in_c);
+	printf("%.1f miles is equivalent to: %.3f km\n", dist_in_miles, dist_in_km);
+	printf("%.1f yards is equivalent to: %.3f meters\n", dist_in_yards, dist_in_meters);
+	printf("%.1f inches is equivalent to: %.3f cm\n", dist_in_inches, dist_in_cm);
+	return 0;
+}
+
+fontana1@bravo:~/CS/60-140$ cc fontana1_ans1.c
+fontana1@bravo:~/CS/60-140$ ./a.out
+
+	Assignment 1: 60-140
+	   Daniel Fontana
+	********************
+Type the number of lbs you want to convert to Kg: 10.0
+Type the number of F you want converted to C: -40.0
+Type the number of miles you want converted to Kilometers: 5/ .0
+Type the number of yards you want converted to meters: 25.0
+Type the number of inches you want converted to centimeters: 45.0
+
+10.0 lbs is equivalent to: 4.536 kg
+-40.0 F is equivalent to: -40.000 C
+5.0 miles is equivalent to: 8.047 km
+25.0 yards is equivalent to: 22.860 meters
+45.0 inches is equivalent to: 114.300 cm
+fontana1@bravo:~/CS/60-140$ exit
+exit
+
+Script done on Thu 25 Sep 2014 10:57:26 AM EDT

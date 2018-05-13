@@ -1,0 +1,456 @@
+Script started on Wed 08 Oct 2014 06:36:07 PM EDT
+fontana1@alpha:~/CS/60-140$ cat IA2.txt
+
+Individual Assignment 2
+
+by: Daniel Fontana:
+
+ID: 104238738
+
+
+
+ ------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------
+
+Requirements 
+
+
+A fashion model moved from England to Canada. When she checked her weight 
+
+last in England, she weighed 54 Kg. She was surprised to see her weight in Canada 
+
+on the weighing scale as 140 lbs in her first week. She then weighed 135 lbs 
+
+during her second week in Canada. When she visited England after 2 months, her 
+
+weight was 52 Kg. You are required to write a C program to determine the 
+
+additional weight (in + or -) gained by the model in Canada during her first 2 
+
+weeks as well as the additional weight (in + or -) gained by the model 2 months 
+
+after, when she visited England. You can measure each weight gain from the last 
+
+previous known weight with the unit used at the location of the measuring time (if 
+
+England, unit is Kg and if Canada, unit is lbs). (Hint: 1 Kg = 2 lbs).
+
+
+
+ ------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------
+
+Components Analysis
+
+
+
+Input:
+
+weight_week_0	(real)
+
+weight_week_1	(real)
+
+weight_week_2	(real)
+
+weight_month_2	(real)
+
+
+
+Constants:
+
+one_lbs_to_kg	(real)
+
+one_kg_to_lbs	(real)
+
+
+
+
+
+Output:
+
+gain_week_1		(real)
+
+gain_week_2		(real)
+
+gain_month_2	(real)
+
+
+
+Relationship:
+
+	gain_week_1 = weight_week_1-(weight_week_0*one_kg_to_lbs);
+
+	gain_week_2 = weight_week_2-weight_week_1;
+
+	gain_month_2 = weight_month_2-(weight_week_2*one_lbs_to_kg);
+
+
+
+ ------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------
+
+ALGORITHM
+
+Main Module
+
+{
+
+	Input Variables: weight_week_0, weight_week_1, weight_week_2, weight_month_2;
+
+						(Real)
+
+Constants: one_lbs_to_kg = .4545, one_kg_to_lbs = 2.2;
+
+					(Real)
+
+	Output Variables: gain_week_1, gain_week_2, gain_month_2;
+
+						(Real)
+
+	//Prints a title
+
+	print("Welcome to the Kg to lbs Weighing Scale Converter");
+
+	print("**************************************************");
+
+	
+
+	print("Please type the Kg weight of the model in England: ");
+
+	read( weight_week_0);
+
+	print("Please type the lbs weight of the model in Canada week 1: ");
+
+	read( weight_week_1);
+
+	print("Please type the lbs weight of the model in Canada week 2: ");
+
+	read( weight_week_2);
+
+	print("Please type the Kg weight of the model in England in 2 months: ");
+
+	read( weight_month_2);
+
+	
+
+	gain_week_1 = weight_week_1-(weight_week_0*one_kg_to_lbs);
+
+	gain_week_2 = weight_week_2-weight_week_1;
+
+	gain_month_2 = weight_month_2-(weight_week_2*one_lbs_to_kg);
+
+	
+
+	print("Change in the model's weight:");
+
+	print("Gain in weight in Canada week 1:“, gain_week_1, ” lbs");
+
+	print("Gain in weight in Canada week 1: “, gain_week_2, ” lbs");
+
+	print("Gain in weight in England 2 months: “, gain_month_2, ” kg");
+
+	
+
+	print("Thank you for using the Kg to lbs Weighing Scale Converter. Have a nice day!")
+
+	
+
+	end
+
+}
+
+ ------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------
+
+CODING:
+
+
+
+//Assignment 2: 60-140
+
+//By Daniel Fontana
+
+#include <stdio.h>
+
+int main(void)
+
+{
+
+	//Input Variables
+
+	float weight_week_0, weight_week_1, weight_week_2, weight_month_2;
+
+	//Constants
+
+	const float one_lbs_to_kg = .4545, one_kg_to_lbs = 2.2;
+
+	//Output Variables
+
+	float gain_week_1, gain_week_2, gain_month_2;
+
+
+
+	//Prints a title
+
+	printf("\n\tWelcome to the Kg to lbs Weighing Scale Converter");
+
+	printf("\n\t**************************************************");
+
+	
+
+	printf("\nPlease type the Kg weight of the model in England: ");
+
+	scanf("%f", &weight_week_0);
+
+	printf("Please type the lbs weight of the model in Canada week 1: ");
+
+	scanf("%f", &weight_week_1);
+
+	printf("Please type the lbs weight of the model in Canada week 2: ");
+
+	scanf("%f", &weight_week_2);
+
+	printf("Please type the Kg weight of the model in England in 2 months: ");
+
+	scanf("%f", &weight_month_2);
+
+	
+
+	gain_week_1 = weight_week_1-(weight_week_0*one_kg_to_lbs);
+
+	gain_week_2 = weight_week_2-weight_week_1;
+
+	gain_month_2 = weight_month_2-(weight_week_2*one_lbs_to_kg);
+
+	
+
+	printf("\nChange in the model's weight:");
+
+	printf("\n\tGain in weight in Canada week 1: %.2f lbs", gain_week_1);
+
+	printf("\n\tGain in weight in Canada week 1: %.2f lbs", gain_week_2);
+
+	printf("\n\tGain in weight in England 2 months: %.2f kg\n", gain_month_2);
+
+	
+
+	printf("\nThank you for using the Kg to lbs Weighing Scale Converter.\nHave a nice day!\n\n")
+
+	
+
+	return 0;
+
+}
+
+
+
+------------------------------------------------------------------------------------
+
+TRACING: 
+
+//Tracing my values: 
+
+
+
+	Constant Inputs: 
+
+	float one_lbs_to_kg = .4545, one_kg_to_lbs = 2.2;
+
+
+
+	scanf("%f", &weight_week_0);
+
+->	// weight_week_0 is entered		-> 50
+
+
+
+	scanf("%f", &weight_week_1);
+
+->	// weight_week_ 1 is entered	-> 10
+
+
+
+	scanf("%f", &weight_week_2);
+
+->	// weight_week_ 2 is entered	-> 40
+
+
+
+	scanf("%f", &weight_month_2);
+
+->	// weight_month_2 is entered	-> 11
+
+
+
+	gain_week_1 = weight_week_1-(weight_week_0*one_kg_to_lbs);
+
+->	// gain_week_1 = 10 - (50*2.2)
+
+	// gain_week_1 = 10 - 110
+
+	// gain_week_1 = -100
+
+
+
+	gain_week_2 = weight_week_2-weight_week_1;
+
+->	// gain_week_2 = 40 - 10
+
+	// gain_week_2 = 30
+
+
+
+	gain_month_2 = weight_month_2-(weight_week_2*one_lbs_to_kg);
+
+->	// gain_month_2 = 11 - (40*.4545)
+
+	// gain_month_2 = 11 - 18.18
+
+	// gain_month_2 = -7.18
+
+	
+
+	printf("\nChange in the model's weight:");
+
+	printf("\n\tGain in weight in Canada week 1: %.2f lbs", gain_week_1);
+
+->	// gain_week_1 is printed 	-> -100
+
+
+
+	printf("\n\tGain in weight in Canada week 1: %.2f lbs", gain_week_2);
+
+->	// gain_week_2 is printed 	-> 30
+
+
+
+	printf("\n\tGain in weight in England 2 months: %.2f kg\n", gain_month_2);
+
+->	// gain_month_2 is printed 	-> -7.18
+
+
+
+	The correct values of -100, 30, and -7.18 are printed
+
+
+
+	End of Tracing
+
+
+
+
+
+ ------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------fontana1@alpha:~/CS/60-140$ scr[K[K[Kvat[K[K[Kcat IA2.c
+
+//Assignment 2: 60-140
+
+//By Daniel Fontana
+
+#include <stdio.h>
+
+int main(void)
+
+{
+
+	//Input Variables
+
+	float weight_week_0, weight_week_1, weight_week_2, weight_month_2;
+
+	//Constants
+
+	const float one_lbs_to_kg = .4545, one_kg_to_lbs = 2.2;
+
+	//Output Variables
+
+	float gain_week_1, gain_week_2, gain_month_2;
+
+
+
+	//Prints a title
+
+	printf("\n\tWelcome to the Kg to lbs Weighing Scale Converter");
+
+	printf("\n\t**************************************************");
+
+	
+
+	printf("\nPlease type the Kg weight of the model in England: ");
+
+	scanf("%f", &weight_week_0);
+
+	printf("Please type the lbs weight of the model in Canada week 1: ");
+
+	scanf("%f", &weight_week_1);
+
+	printf("Please type the lbs weight of the model in Canada week 2: ");
+
+	scanf("%f", &weight_week_2);
+
+	printf("Please type the Kg weight of the model in England in 2 months: ");
+
+	scanf("%f", &weight_month_2);
+
+	
+
+	gain_week_1 = weight_week_1-(weight_week_0*one_kg_to_lbs);
+
+	gain_week_2 = weight_week_2-weight_week_1;
+
+	gain_month_2 = weight_month_2-(weight_week_2*one_lbs_to_kg);
+
+	
+
+	printf("\nChange in the model's weight:");
+
+	printf("\n\tGain in weight in Canada week 1: %.2f lbs", gain_week_1);
+
+	printf("\n\tGain in weight in Canada week 1: %.2f lbs", gain_week_2);
+
+	printf("\n\tGain in weight in England 2 months: %.2f kg\n", gain_month_2);
+
+	
+
+	printf("\nThank you for using the Kg to lbs Weighing Scale Converter.\nHave a nice day!\n\n");
+
+	
+
+	return 0;
+
+}fontana1@alpha:~/CS/60-140$ cc IA2.c
+
+fontana1@alpha:~/CS/60-140$ ./a.out
+
+
+
+	Welcome to the Kg to lbs Weighing Scale Converter
+
+	**************************************************
+
+Please type the Kg weight of the model in England: 54
+
+Please type the lbs weight of the model in Canada week 1: 140
+
+Please type the lbs weight of the model in Canada week 2: 135
+
+Please type the Kg weight of the model in England in 2 months: 52
+
+
+
+Change in the model's weight:
+
+	Gain in weight in Canada week 1: 21.20 lbs
+
+	Gain in weight in Canada week 1: -5.00 lbs
+
+	Gain in weight in England 2 months: -9.36 kg
+
+
+
+Thank you for using the Kg to lbs Weighing Scale Converter.
+
+Have a nice day!
+
+
+
+fontana1@alpha:~/CS/60-140$ exit
+
+exit
+
+
+Script done on Wed 08 Oct 2014 06:37:56 PM EDT
