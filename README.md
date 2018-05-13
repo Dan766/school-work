@@ -21,3 +21,5 @@ Project focused on the stages of Software Development; software elicitation, des
 60-322 Object Oriented Design/Analysis
 ==========
 Object Oriented design patterns using Java including the concepts of polymorphism, refractoring, factory pattern, composite pattern, etc.
+=======
+# school-work
